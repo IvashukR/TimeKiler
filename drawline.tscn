@@ -1,0 +1,122 @@
+[gd_scene load_steps=6 format=3 uid="uid://xn7v815sgxhp"]
+
+[ext_resource type="Script" path="res://drawline.gd" id="1_1tdw5"]
+[ext_resource type="Texture2D" uid="uid://bcf1dke7awex8" path="res://icon.svg" id="2_mrekw"]
+[ext_resource type="Texture2D" uid="uid://bahtrvc8vnnu5" path="res://Gradient.tres" id="3_vokqy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1fw3"]
+size = Vector2(121, 125)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cdmqi"]
+size = Vector2(123, 121)
+
+[node name="drawline" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_1tdw5")
+
+[node name="Spawn" type="Node" parent="."]
+process_mode = 3
+
+[node name="spawner1" type="Node2D" parent="Spawn"]
+position = Vector2(812, 350)
+
+[node name="spawner2" type="Node2D" parent="Spawn"]
+position = Vector2(212, 450)
+
+[node name="spawner3" type="Node2D" parent="Spawn"]
+position = Vector2(576, 95)
+
+[node name="Control" type="Control" parent="Spawn"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Gradient" type="TextureRect" parent="Spawn/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_vokqy")
+
+[node name="restart" type="Button" parent="Spawn/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.419
+anchor_top = 0.435
+anchor_right = 0.581
+anchor_bottom = 0.532
+offset_left = 0.311951
+offset_top = 0.119965
+offset_right = -0.312012
+offset_bottom = 13.264
+grow_horizontal = 2
+grow_vertical = 2
+text = "RESTART
+"
+
+[node name="Label" type="Label" parent="Spawn/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.457
+anchor_top = 0.216
+anchor_right = 1.241
+anchor_bottom = 0.528
+offset_left = 0.536011
+offset_top = 19.032
+offset_right = -573.632
+offset_bottom = -100.144
+scale = Vector2(2.74251, 2.20334)
+text = "WIN!
+"
+
+[node name="counter" type="Label" parent="Spawn/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.192
+anchor_bottom = 0.085
+offset_right = -0.184006
+offset_bottom = -0.0800018
+text = "WIN:
+"
+
+[node name="spawnTimer" type="Timer" parent="."]
+process_mode = 3
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1070, 307)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+position = Vector2(-7, -17)
+texture = ExtResource("2_mrekw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-5.5, -20.5)
+shape = SubResource("RectangleShape2D_s1fw3")
+
+[node name="player" type="CharacterBody2D" parent="."]
+process_mode = 1
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="player"]
+texture = ExtResource("2_mrekw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+position = Vector2(5.5, -1.5)
+shape = SubResource("RectangleShape2D_cdmqi")
+
+[connection signal="pressed" from="Spawn/Control/restart" to="." method="_on_restart_pressed"]
+[connection signal="timeout" from="spawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

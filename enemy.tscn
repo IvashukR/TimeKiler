@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://tp2eqbsequ86"]
+
+[ext_resource type="Texture2D" uid="uid://bcf1dke7awex8" path="res://icon.svg" id="1_bd83w"]
+[ext_resource type="Script" path="res://enemy.gd" id="1_iy8pq"]
+[ext_resource type="Shader" path="res://enemy.gdshader" id="2_527a0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kgph1"]
+shader = ExtResource("2_527a0")
+shader_parameter/color_1 = Color(0.83361, 0.275711, 0.279738, 1)
+shader_parameter/value = 0.8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7m6px"]
+size = Vector2(111, 123)
+
+[node name="enemy" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_iy8pq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_kgph1")
+texture = ExtResource("1_bd83w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, -2.5)
+shape = SubResource("RectangleShape2D_7m6px")
+
+[node name="move" type="Timer" parent="."]
+
+[connection signal="timeout" from="move" to="." method="_on_move_timeout"]
